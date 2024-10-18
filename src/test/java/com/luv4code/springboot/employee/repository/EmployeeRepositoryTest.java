@@ -1,6 +1,7 @@
 package com.luv4code.springboot.employee.repository;
 
 import com.luv4code.springboot.employee.model.Employee;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +17,16 @@ class EmployeeRepositoryTest {
 
     @Autowired
     private EmployeeRepository repository;
+    private Employee employee;
+
+    @BeforeEach
+    void setUp() {
+        employee = Employee.builder().firstName("Madhav").lastName("Ponnana").email("Madhav.p.akv@gmail.com").build();
+    }
 
     @Test
     @DisplayName("Saved Employee Test")
     void testSaveEmployee() {
-        //given
-        Employee employee = Employee.builder().firstName("Madhav").lastName("Ponnana").email("Madhav.p.akv@gmail.com").build();
-
         //when
         Employee savedEmployee = repository.save(employee);
 
@@ -51,43 +55,38 @@ class EmployeeRepositoryTest {
     @Test
     @DisplayName("Find Employee By Id")
     void testFindEmployeeById() {
-        //given
-        Employee e1 = Employee.builder().firstName("madhav").lastName("ponnana").email("madhav@gmail.com").build();
-        repository.save(e1);
+        repository.save(employee);
 
         //when
-        Employee savedEmployee = repository.findById(e1.getEmployeeId()).orElse(null);
+        Employee savedEmployee = repository.findById(employee.getEmployeeId()).orElse(null);
 
         //then
         assertThat(savedEmployee).isNotNull();
-        assertThat(savedEmployee.getFirstName()).isEqualTo("madhav");
+        assertThat(savedEmployee.getFirstName()).isEqualTo("Madhav");
         assertThat(savedEmployee.getEmployeeId()).isGreaterThan(0);
     }
 
     @Test
     @DisplayName("Find Employee By Email")
-    void testFindEmployeeByEamil(){
-        //given
-        Employee e1 = Employee.builder().firstName("madhav").lastName("ponnana").email("madhav@gmail.com").build();
-        repository.save(e1);
+    void testFindEmployeeByEamil() {
+        repository.save(employee);
 
         //when
-        Employee employee = repository.findByEmail(e1.getEmail());
+        Employee savedEmployee = repository.findByEmail(employee.getEmail());
 
         //then
-        assertThat(employee.getEmail()).isEqualTo("madhav@gmail.com");
-        assertThat(employee.getEmail()).isNotEqualTo("madhav@outlook.com");
+        assertThat(savedEmployee.getEmail()).isEqualTo("Madhav.p.akv@gmail.com");
+        assertThat(savedEmployee.getEmail()).isNotEqualTo("madhav@outlook.com");
     }
 
     @Test
     @DisplayName("Update Employee By Id")
-    void testUpdateEmployeeById(){
+    void testUpdateEmployeeById() {
         //given
-        Employee e1 = Employee.builder().firstName("madhav").lastName("ponnana").email("madhav@gmail.com").build();
-        repository.save(e1);
+        repository.save(employee);
 
         //when
-        Employee savedEmployee = repository.findById(e1.getEmployeeId()).orElse(null);
+        Employee savedEmployee = repository.findById(employee.getEmployeeId()).orElse(null);
         savedEmployee.setFirstName("Madhav");
         savedEmployee.setLastName("Ponnana");
 
@@ -100,10 +99,9 @@ class EmployeeRepositoryTest {
 
     @Test
     @DisplayName("Delete Employee")
-    void deleteEmployee(){
+    void deleteEmployee() {
         //given
-        Employee e1 = Employee.builder().firstName("madhav").lastName("ponnana").email("madhav@gmail.com").build();
-        Employee savedEmployee = repository.save(e1);
+        Employee savedEmployee = repository.save(employee);
 
         //when
         repository.delete(savedEmployee);
