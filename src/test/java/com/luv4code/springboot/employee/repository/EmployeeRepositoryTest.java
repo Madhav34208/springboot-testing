@@ -109,11 +109,44 @@ class EmployeeRepositoryTest {
     }
 
     @Test
-    @DisplayName("Find Employee based on Firstname and Lastname")
-    void testFindEmployeeBasedOnFirstnameAndLastname(){
+    @DisplayName("FindEByJPQLIndexParams")
+    void testFindEByJPQLIndexParams(){
         //when
         Employee savedEmployee = repository.save(employee);
-        Employee returnedEmployee = repository.findByFirstNameAndLastName(savedEmployee.getFirstName(), savedEmployee.getLastName());
+        Employee returnedEmployee = repository.findByJPQLIndexParams(savedEmployee.getFirstName(), savedEmployee.getLastName());
+
+        //then
+        assertThat(returnedEmployee).isNotNull();
+    }
+
+    @Test
+    @DisplayName("FindEByJPQLNamedParams")
+    void testFindEByJPQLNamedParams(){
+        //when
+        Employee savedEmployee = repository.save(employee);
+        Employee returnedEmployee = repository.findByJPQLNamedParams(savedEmployee.getFirstName(), savedEmployee.getLastName());
+
+        //then
+        assertThat(returnedEmployee).isNotNull();
+    }
+
+    @Test
+    @DisplayName("FindEByIndexedIndexParams")
+    void testFindEByNativeIndexParams(){
+        //when
+        Employee savedEmployee = repository.save(employee);
+        Employee returnedEmployee = repository.findByNativeIndexedParams(savedEmployee.getFirstName(), savedEmployee.getLastName());
+
+        //then
+        assertThat(returnedEmployee).isNotNull();
+    }
+
+    @Test
+    @DisplayName("FindEByJPQLNamedParams")
+    void testFindEByNativeNamedParams(){
+        //when
+        Employee savedEmployee = repository.save(employee);
+        Employee returnedEmployee = repository.findByNativeNamedParams(savedEmployee.getFirstName(), savedEmployee.getLastName());
 
         //then
         assertThat(returnedEmployee).isNotNull();
