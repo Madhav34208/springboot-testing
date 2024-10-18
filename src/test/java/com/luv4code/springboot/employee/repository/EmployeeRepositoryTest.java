@@ -70,7 +70,7 @@ class EmployeeRepositoryTest {
     void testFindEmployeeByEamil() {
         //when
         repository.save(employee);
-        Employee savedEmployee = repository.findByEmail(employee.getEmail());
+        Employee savedEmployee = repository.findByEmail(employee.getEmail()).get();
 
         //then
         assertThat(savedEmployee.getEmail()).isEqualTo("Madhav.p.akv@gmail.com");
