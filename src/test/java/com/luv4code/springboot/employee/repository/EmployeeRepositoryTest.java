@@ -107,4 +107,15 @@ class EmployeeRepositoryTest {
         assertThat(optionalEmployee).isEmpty();
 
     }
+
+    @Test
+    @DisplayName("Find Employee based on Firstname and Lastname")
+    void testFindEmployeeBasedOnFirstnameAndLastname(){
+        //when
+        Employee savedEmployee = repository.save(employee);
+        Employee returnedEmployee = repository.findByFirstNameAndLastName(savedEmployee.getFirstName(), savedEmployee.getLastName());
+
+        //then
+        assertThat(returnedEmployee).isNotNull();
+    }
 }
