@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -76,5 +77,40 @@ class EmployeeRepositoryTest {
         //then
         assertThat(employee.getEmail()).isEqualTo("madhav@gmail.com");
         assertThat(employee.getEmail()).isNotEqualTo("madhav@outlook.com");
+    }
+
+    @Test
+    @DisplayName("Update Employee By Id")
+    void testUpdateEmployeeById(){
+        //given
+        Employee e1 = Employee.builder().firstName("madhav").lastName("ponnana").email("madhav@gmail.com").build();
+        repository.save(e1);
+
+        //when
+        Employee savedEmployee = repository.findById(e1.getEmployeeId()).orElse(null);
+        savedEmployee.setFirstName("Madhav");
+        savedEmployee.setLastName("Ponnana");
+
+        Employee updatedEmployee = repository.save(savedEmployee);
+
+        //then
+        assertThat(updatedEmployee.getFirstName()).isEqualTo("Madhav");
+        assertThat(updatedEmployee.getLastName()).isEqualTo("Ponnana");
+    }
+
+    @Test
+    @DisplayName("Delete Employee")
+    void deleteEmployee(){
+        //given
+        Employee e1 = Employee.builder().firstName("madhav").lastName("ponnana").email("madhav@gmail.com").build();
+        Employee savedEmployee = repository.save(e1);
+
+        //when
+        repository.delete(savedEmployee);
+        Optional<Employee> optionalEmployee = repository.findById(savedEmployee.getEmployeeId());
+
+        //then
+        assertThat(optionalEmployee).isEmpty();
+
     }
 }
