@@ -55,9 +55,8 @@ class EmployeeRepositoryTest {
     @Test
     @DisplayName("Find Employee By Id")
     void testFindEmployeeById() {
-        repository.save(employee);
-
         //when
+        repository.save(employee);
         Employee savedEmployee = repository.findById(employee.getEmployeeId()).orElse(null);
 
         //then
@@ -69,9 +68,8 @@ class EmployeeRepositoryTest {
     @Test
     @DisplayName("Find Employee By Email")
     void testFindEmployeeByEamil() {
-        repository.save(employee);
-
         //when
+        repository.save(employee);
         Employee savedEmployee = repository.findByEmail(employee.getEmail());
 
         //then
@@ -82,10 +80,8 @@ class EmployeeRepositoryTest {
     @Test
     @DisplayName("Update Employee By Id")
     void testUpdateEmployeeById() {
-        //given
-        repository.save(employee);
-
         //when
+        repository.save(employee);
         Employee savedEmployee = repository.findById(employee.getEmployeeId()).orElse(null);
         savedEmployee.setFirstName("Madhav");
         savedEmployee.setLastName("Ponnana");
